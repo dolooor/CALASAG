@@ -132,6 +132,7 @@ const AdminDashboard: React.FC = () => {
                 ? { ...user, status: user.status === 'active' ? 'inactive' : 'active' }
                 : user
         ));
+        setShowUserDetails(false);
     };
 
     const handleIncidentAction = (incidentId: number, action: 'review' | 'resolve' | 'escalate') => {
@@ -833,6 +834,7 @@ const AdminDashboard: React.FC = () => {
                         </button>
                         <h1 className="text-xl font-semibold text-[#005524]">
                             {activeTab === 'dashboard' && 'Dashboard'}
+                            {activeTab === 'users' && 'User Management'}
                             {activeTab === 'incidents' && 'Incident Reports'}
                             {activeTab === 'safety-tips' && 'Safety Tips'}
                             {activeTab === 'settings' && 'Settings'}

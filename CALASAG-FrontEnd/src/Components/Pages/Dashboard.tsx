@@ -581,7 +581,7 @@ const Dashboard: React.FC = () => {
           <div className="bg-[#005524] rounded-lg shadow-md p-2 sm:p-3 lg:p-4 hidden sm:block">
             <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-2 sm:mb-4">Safety Tips</h2>
             <div className="space-y-1 sm:space-y-2">
-              {type.slice(0, 3).map((item) => (
+              {type.map((item) => (
                 <div
                   key={item.id}
                   className="flex items-center p-2 rounded-lg bg-white/10 hover:bg-white/20 cursor-pointer transition-colors duration-200"
@@ -708,11 +708,11 @@ const Dashboard: React.FC = () => {
               </div>
             )}
           </div>
-          
+
           <div className="bg-[#005524] rounded-lg shadow-md p-3 sm:p-4">
             <h2 className="text-lg sm:text-2xl font-bold text-white mb-3 sm:mb-4">Connections</h2>
             <div className="space-y-1 sm:space-y-2 max-h-32 sm:max-h-48 lg:max-h-none overflow-y-auto">
-              {connections.slice(0, 4).map((connection) => (
+              {connections.map((connection) => (
                 <div
                   key={connection.id}
                   className="flex items-center p-2 rounded-lg bg-white/10 hover:bg-white/20 cursor-pointer transition-colors duration-200"
@@ -724,13 +724,8 @@ const Dashboard: React.FC = () => {
                   <span className="text-white ml-2 sm:ml-3 text-xs sm:text-sm truncate">{connection.name}</span>
                 </div>
               ))}
-              {connections.length > 4 && (
-                <div className="text-center mt-2">
-                  <span className="text-white/60 text-xs">+{connections.length - 4} more</span>
-                </div>
-              )}
             </div>
-            
+
             <div className="mt-3 sm:mt-4">
               <h3 className="text-base sm:text-lg font-bold text-white mb-2">
                 Emergency Alerts
@@ -767,130 +762,130 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
           </div>
-          
-          {selectedConnection && (            <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4">
-              <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-sm sm:max-w-md lg:max-w-lg shadow-xl max-h-[90vh] overflow-y-auto">
-                <div className="flex justify-between items-center mb-4">
-                  <h2 className="text-lg sm:text-2xl font-bold text-[#005524]">
-                    Connection Details
-                  </h2>
+
+          {selectedConnection && (<div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-sm sm:max-w-md lg:max-w-lg shadow-xl max-h-[90vh] overflow-y-auto">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg sm:text-2xl font-bold text-[#005524]">
+                  Connection Details
+                </h2>
+                <button
+                  onClick={() => {
+                    setSelectedConnection(null);
+                    setConnectionTab("profile");
+                    setMessageText("");
+                    setMessageSent(false);
+                  }}
+                  className="text-gray-500 hover:text-gray-700 p-1"
+                >
+                  ✕
+                </button>
+              </div>
+              <div className="flex flex-col items-center space-y-3 sm:space-y-4">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gray-300 flex items-center justify-center text-white text-2xl sm:text-3xl">
+                  👤
+                </div>
+                <div className="text-center">
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-800">
+                    {selectedConnection.name}
+                  </h3>
+                </div>
+                <div className="flex justify-center gap-2 sm:gap-4 mb-2">
                   <button
-                    onClick={() => {
-                      setSelectedConnection(null);
-                      setConnectionTab("profile");
-                      setMessageText("");
-                      setMessageSent(false);
-                    }}
-                    className="text-gray-500 hover:text-gray-700 p-1"
+                    className={`px-3 sm:px-4 py-1 rounded-full font-medium text-xs sm:text-sm transition-colors ${connectionTab === "profile"
+                      ? "bg-[#005524] text-white"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                      }`}
+                    onClick={() => setConnectionTab("profile")}
                   >
-                    ✕
+                    Profile
+                  </button>
+                  <button
+                    className={`px-3 sm:px-4 py-1 rounded-full font-medium text-xs sm:text-sm transition-colors ${connectionTab === "message"
+                      ? "bg-[#005524] text-white"
+                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                      }`}
+                    onClick={() => setConnectionTab("message")}
+                  >
+                    Message
                   </button>
                 </div>
-                <div className="flex flex-col items-center space-y-3 sm:space-y-4">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gray-300 flex items-center justify-center text-white text-2xl sm:text-3xl">
-                    👤
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-lg sm:text-xl font-semibold text-gray-800">
-                      {selectedConnection.name}
-                    </h3>
-                  </div>
-                  <div className="flex justify-center gap-2 sm:gap-4 mb-2">
-                    <button
-                      className={`px-3 sm:px-4 py-1 rounded-full font-medium text-xs sm:text-sm transition-colors ${connectionTab === "profile"
-                        ? "bg-[#005524] text-white"
-                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                        }`}
-                      onClick={() => setConnectionTab("profile")}
-                    >
-                      Profile
-                    </button>
-                    <button
-                      className={`px-3 sm:px-4 py-1 rounded-full font-medium text-xs sm:text-sm transition-colors ${connectionTab === "message"
-                        ? "bg-[#005524] text-white"
-                        : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                        }`}
-                      onClick={() => setConnectionTab("message")}
-                    >
-                      Message
-                    </button>
-                  </div>
-                  {connectionTab === "profile" && (
-                    <div className="w-full text-left space-y-2">
-                      <div className="mb-2 p-2 bg-gray-50 rounded text-sm">
-                        <span className="font-semibold text-gray-700 flex items-center">
-                          <span className="inline-block mr-2">
-                            <FaEnvelope size={14} />
-                          </span>
-                          Email:
+                {connectionTab === "profile" && (
+                  <div className="w-full text-left space-y-2">
+                    <div className="mb-2 p-2 bg-gray-50 rounded text-sm">
+                      <span className="font-semibold text-gray-700 flex items-center">
+                        <span className="inline-block mr-2">
+                          <FaEnvelope size={14} />
                         </span>
-                        <span className="text-gray-600 ml-6">user@calasag.com</span>
-                      </div>
-                      <div className="mb-2 p-2 bg-gray-50 rounded text-sm">
-                        <span className="font-semibold text-gray-700 flex items-center">
-                          <span className="inline-block mr-2">
-                            <FaPhoneAlt size={14} />
-                          </span>
-                          Phone:
-                        </span>
-                        <span className="text-gray-600 ml-6">+63 900 000 0000</span>
-                      </div>
-                      <div className="mb-2 p-2 bg-gray-50 rounded text-sm">
-                        <span className="font-semibold text-gray-700 flex items-center">
-                          <span className="inline-block mr-2">
-                            <FaInfoCircle size={14} />
-                          </span>
-                          Status:
-                        </span>
-                        <span className="text-green-600 ml-6">Active</span>
-                      </div>
-                      <div className="mb-2 p-2 bg-gray-50 rounded text-sm">
-                        <span className="font-semibold text-gray-700 flex items-center mb-1">
-                          <span className="inline-block mr-2">
-                            <FaInfoCircle size={14} />
-                          </span>
-                          About:
-                        </span>
-                        <span className="text-gray-600 ml-6 text-xs leading-relaxed">
-                          This is a placeholder profile. More info can be added here.
-                        </span>
-                      </div>
+                        Email:
+                      </span>
+                      <span className="text-gray-600 ml-6">user@calasag.com</span>
                     </div>
-                  )}
-                  {connectionTab === "message" && (
-                    <div className="w-full flex flex-col items-center">
-                      {messageSent ? (
-                        <div className="text-green-600 font-semibold mb-2 text-sm sm:text-base">
-                          Message sent!
-                        </div>
-                      ) : (
-                        <>
-                          <textarea
-                            className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 mb-2 sm:mb-3 focus:outline-none focus:ring-2 focus:ring-[#005524] text-sm resize-none"
-                            rows={3}
-                            placeholder={`Message to ${selectedConnection.name}`}
-                            value={messageText}
-                            onChange={(e) => setMessageText(e.target.value)}
-                          />
-                          <button
-                            className="bg-[#005524] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#004015] transition-colors text-sm w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
-                            onClick={() =>
-                              handleSendMessage(
-                                selectedConnection.name,
-                                messageText
-                              )
-                            }
-                            disabled={!messageText.trim()}
-                          >
-                            Send Message
-                          </button>
-                        </>
-                      )}
+                    <div className="mb-2 p-2 bg-gray-50 rounded text-sm">
+                      <span className="font-semibold text-gray-700 flex items-center">
+                        <span className="inline-block mr-2">
+                          <FaPhoneAlt size={14} />
+                        </span>
+                        Phone:
+                      </span>
+                      <span className="text-gray-600 ml-6">+63 900 000 0000</span>
                     </div>
-                  )}
-                </div>
+                    <div className="mb-2 p-2 bg-gray-50 rounded text-sm">
+                      <span className="font-semibold text-gray-700 flex items-center">
+                        <span className="inline-block mr-2">
+                          <FaInfoCircle size={14} />
+                        </span>
+                        Status:
+                      </span>
+                      <span className="text-green-600 ml-6">Active</span>
+                    </div>
+                    <div className="mb-2 p-2 bg-gray-50 rounded text-sm">
+                      <span className="font-semibold text-gray-700 flex items-center mb-1">
+                        <span className="inline-block mr-2">
+                          <FaInfoCircle size={14} />
+                        </span>
+                        About:
+                      </span>
+                      <span className="text-gray-600 ml-6 text-xs leading-relaxed">
+                        This is a placeholder profile. More info can be added here.
+                      </span>
+                    </div>
+                  </div>
+                )}
+                {connectionTab === "message" && (
+                  <div className="w-full flex flex-col items-center">
+                    {messageSent ? (
+                      <div className="text-green-600 font-semibold mb-2 text-sm sm:text-base">
+                        Message sent!
+                      </div>
+                    ) : (
+                      <>
+                        <textarea
+                          className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 mb-2 sm:mb-3 focus:outline-none focus:ring-2 focus:ring-[#005524] text-sm resize-none"
+                          rows={3}
+                          placeholder={`Message to ${selectedConnection.name}`}
+                          value={messageText}
+                          onChange={(e) => setMessageText(e.target.value)}
+                        />
+                        <button
+                          className="bg-[#005524] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#004015] transition-colors text-sm w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
+                          onClick={() =>
+                            handleSendMessage(
+                              selectedConnection.name,
+                              messageText
+                            )
+                          }
+                          disabled={!messageText.trim()}
+                        >
+                          Send Message
+                        </button>
+                      </>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
+          </div>
           )}
         </div>
 

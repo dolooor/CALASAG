@@ -90,13 +90,13 @@ const SuperAdminDashboard: React.FC = () => {
         { id: 2, message: 'Incident report resolved', time: '1 hour ago' },
     ]);
 
-    const [featureUpdates] = useState<FeatureUpdate[]>([
+    const [featureUpdates, setFeatureUpdates] = useState<FeatureUpdate[]>([
         { id: 1, name: "New Alert System", description: "Implementation of real-time alert system", status: 'pending', date: "2024-03-20" },
         { id: 2, name: "UI Enhancement", description: "Dashboard redesign for better UX", status: 'approved', date: "2024-03-19" },
         { id: 3, name: "Security Update", description: "Critical security patches", status: 'pending', date: "2024-03-18" }
     ]);
 
-    const [reports] = useState<Report[]>([
+    const [reports, setReports] = useState<Report[]>([
         { id: 1, type: 'incident', title: "System Outage Report", status: 'pending', date: "2024-03-20", priority: 'high' },
         { id: 2, type: 'alert', title: "Security Alert Report", status: 'resolved', date: "2024-03-18", priority: 'low' }
     ]);
@@ -186,14 +186,28 @@ const SuperAdminDashboard: React.FC = () => {
     };
 
     const handleFeatureUpdate = (updateId: number, status: 'approved' | 'rejected') => {
-        // Here you would typically make an API call to update the feature status
-        console.log(`Feature update ${updateId} ${status}`);
+        setFeatureUpdates(featureUpdates.map(update => {
+            if (update.id === updateId) {
+                return {
+                    ...update,
+                    status: status
+                };
+            }
+            return update;
+        }));
         setShowFeatureUpdateModal(false);
     };
 
     const handleReportAction = (reportId: number, action: 'review' | 'resolve') => {
-        // Here you would typically make an API call to update the report status
-        console.log(`Report ${reportId} ${action}`);
+        setReports(reports.map(report => {
+            if (report.id === reportId) {
+                return {
+                    ...report,
+                    status: action === 'review' ? 'reviewed' : 'resolved'
+                };
+            }
+            return report;
+        }));
         setShowReportDetails(false);
     };
 
