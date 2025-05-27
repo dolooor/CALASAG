@@ -164,7 +164,7 @@ const Dashboard: React.FC = () => {
       name: "Hyacinth Louisse Almiro",
       avatar: "/avatars/bo.png",
       emergency: "Looking for help",
-      message: "I need car guy",
+      message: "The flood is getting worse! HELP!",
       location: { lat: 13.788724, lng: 121.060253 },
     },
     {
@@ -172,7 +172,7 @@ const Dashboard: React.FC = () => {
       name: "Jix Jimrei Ilao",
       avatar: "/avatars/nataniel.png",
       emergency: "Looking for Andy",
-      message: "I need car girl",
+      message: "An earthquake has occured! Many injured people in our area.",
       location: { lat: 13.767783, lng: 121.063503 },
     },
   ]);
