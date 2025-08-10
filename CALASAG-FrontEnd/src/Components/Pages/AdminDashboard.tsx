@@ -75,10 +75,8 @@ const AdminDashboard: React.FC = () => {
         { id: 2, message: 'Safety tip published', time: '1 hour ago' },
     ]);
 
-    // State to manage dropdown open/close in sidebar
     const [openSidebarDropdown, setOpenSidebarDropdown] = useState<string | null>(null);
 
-    // Settings-related states
     const [isEditingPersonal, setIsEditingPersonal] = useState(false);
     const [isEditingSecurity, setIsEditingSecurity] = useState(false);
     const [personalInfo, setPersonalInfo] = useState({

@@ -517,25 +517,6 @@ const Dashboard: React.FC = () => {
             </button>
           </div>
 
-          <div className="bg-[#005524] rounded-lg shadow-md p-2 sm:p-3 h-fit">
-            <div className="flex justify-between items-center mb-2">
-              <h2 className="text-lg sm:text-xl font-bold text-white">Your Location</h2>
-              <button className="text-white">⋮</button>
-            </div>
-            <div className="bg-gray-200 rounded relative">
-              <div className="w-full">
-                <img
-                  src={mapImage}
-                  alt="Map location"
-                  className="w-full rounded"
-                />
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  📍
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div className="bg-[#005524] rounded-lg shadow-md p-2 sm:p-3 lg:p-4">
             <h2 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-4">Your Device</h2>
             <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row items-start sm:items-center lg:items-start xl:items-center space-y-2 sm:space-y-0 sm:space-x-4 lg:space-x-0 lg:space-y-2 xl:space-y-0 xl:space-x-4">
