@@ -19,6 +19,10 @@ import {
   FaShieldAlt,
   FaCarCrash,
   FaAmbulance,
+  FaHeart,
+  FaShare,
+  FaComment,
+  FaEllipsisH,
 } from "react-icons/fa";
 import logoImage from "../Images/no-bg-logo.png";
 import mapImage from "../Images/ph-map.png";
@@ -171,7 +175,7 @@ const Dashboard: React.FC = () => {
       id: 7,
       name: "Jix Jimrei Ilao",
       avatar: "/avatars/nataniel.png",
-      emergency: "Looking for Andy",
+      emergency: "Looking for help!",
       message: "An earthquake has occured! Many injured people in our area.",
       location: { lat: 13.767783, lng: 121.063503 },
     },
@@ -365,1021 +369,935 @@ const Dashboard: React.FC = () => {
     return relevantMessages[relevantMessages.length - 1];
   };
   return (
-    <div className="min-h-screen bg-[#f8eed4] flex flex-col">
-      {/* Top Navigation Bar */}
-      <div className="bg-[#f8eed4] border-b border-gray-200 p-2 sm:p-3 md:p-4 flex items-center justify-between">
-        <div className="flex items-center space-x-2 sm:space-x-4">
-          <img src={logoImage} className="h-8 sm:h-10 md:h-12 w-auto" alt="Logo" />
-          <div className="relative hidden sm:block">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="bg-white rounded-lg px-2 sm:px-3 py-1 sm:py-2 w-24 sm:w-32 md:w-40 text-xs sm:text-sm border border-gray-200"
-            />
-            <button className="absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2 text-gray-400">
-              <FaSearch size={12} className="sm:w-4 sm:h-4" />
+    <div className="min-h-screen bg-[#f8eed4] flex flex-col relative overflow-hidden">
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-0 left-0 w-32 h-32 bg-[#005524] rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/4 right-0 w-24 h-24 bg-[#f69f00] rounded-full blur-2xl animate-bounce"></div>
+        <div className="absolute bottom-0 left-1/3 w-40 h-40 bg-[#be4c1d] rounded-full blur-3xl animate-pulse"></div>
+      </div>
+
+      <div className="bg-[#f8eed4] border-b-2 border-[#005524]/20 backdrop-blur-sm sticky top-0 z-50 shadow-lg">
+        <div className="p-2 sm:p-3 md:p-4 flex items-center justify-between">
+          <div className="flex items-center space-x-2 sm:space-x-4">
+            <div className="relative group">
+              <img src={logoImage} className="h-8 sm:h-10 md:h-12 w-auto transition-transform duration-300 group-hover:scale-110" alt="Logo" />
+              <div className="absolute inset-0 bg-[#005524]/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            <div className="relative hidden sm:block">
+              <input
+                type="text"
+                placeholder="Search emergencies..."
+                className="bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 w-32 sm:w-40 md:w-48 text-sm border-2 border-transparent focus:border-[#005524] focus:outline-none transition-all duration-300 shadow-md hover:shadow-lg"
+              />
+              <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-[#005524] hover:text-[#f69f00] transition-colors duration-300">
+                <FaSearch size={14} />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-center justify-center space-x-1 sm:space-x-2 md:space-x-4">
+            <button
+              onClick={() => handleNavigation('home')}
+              className={`relative flex flex-col items-center p-2 sm:p-3 rounded-xl transition-all duration-300 group ${activeTab === 'home'
+                ? 'text-[#005524] bg-white/60 shadow-lg scale-105'
+                : 'text-gray-600 hover:text-[#005524] hover:bg-white/40'
+                }`}
+            >
+              <div className="relative">
+                <FaHome size={18} className="transition-transform duration-300 group-hover:rotate-12" />
+                {activeTab === 'home' && (
+                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#005524] rounded-full animate-pulse"></div>
+                )}
+              </div>
+              <span className="text-xs mt-1 hidden sm:inline font-medium">Home</span>
+            </button>
+            <button
+              onClick={() => handleNavigation('message')}
+              className={`relative flex flex-col items-center p-2 sm:p-3 rounded-xl transition-all duration-300 group ${activeTab === 'message'
+                ? 'text-[#005524] bg-white/60 shadow-lg scale-105'
+                : 'text-gray-600 hover:text-[#005524] hover:bg-white/40'
+                }`}
+            >
+              <div className="relative">
+                <FaBell size={18} className="transition-transform duration-300 group-hover:rotate-12" />
+                {activeTab === 'message' && (
+                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#005524] rounded-full animate-pulse"></div>
+                )}
+              </div>
+              <span className="text-xs mt-1 hidden sm:inline font-medium">Messages</span>
+            </button>
+            <button
+              onClick={() => handleNavigation('report')}
+              className={`relative flex flex-col items-center p-2 sm:p-3 rounded-xl transition-all duration-300 group ${activeTab === 'report'
+                ? 'text-[#005524] bg-white/60 shadow-lg scale-105'
+                : 'text-gray-600 hover:text-[#005524] hover:bg-white/40'
+                }`}
+            >
+              <div className="relative">
+                <FaExclamationTriangle size={18} className="transition-transform duration-300 group-hover:rotate-12" />
+                {activeTab === 'report' && (
+                  <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-[#005524] rounded-full animate-pulse"></div>
+                )}
+              </div>
+              <span className="text-xs mt-1 hidden sm:inline font-medium">Report</span>
             </button>
           </div>
-        </div>
 
-        <div className="flex items-center justify-center space-x-2 sm:space-x-4 md:space-x-8">
-          <button
-            onClick={() => handleNavigation('home')}
-            className={`flex flex-col items-center ${activeTab === 'home' ? 'text-[#005524] font-semibold' : 'text-gray-500 hover:text-[#005524]'} bg-transparent px-2 py-1 rounded transition-colors`}
-          >
-            <span className="text-base sm:text-lg md:text-xl">
-              <FaHome size={16} className="sm:w-5 sm:h-5" />
-            </span>
-            <span className="text-xs mt-1 hidden sm:inline">Home</span>
-          </button>
-          <button
-            onClick={() => handleNavigation('message')}
-            className={`flex flex-col items-center ${activeTab === 'message' ? 'text-[#005524] font-semibold' : 'text-gray-500 hover:text-[#005524]'} bg-transparent px-2 py-1 rounded transition-colors`}
-          >
-            <span className="text-base sm:text-lg md:text-xl">
-              <FaBell size={16} className="sm:w-5 sm:h-5" />
-            </span>
-            <span className="text-xs mt-1 hidden sm:inline">Message</span>
-          </button>
-          <button
-            onClick={() => handleNavigation('report')}
-            className={`flex flex-col items-center ${activeTab === 'report' ? 'text-[#005524] font-semibold' : 'text-gray-500 hover:text-[#005524]'} bg-transparent px-2 py-1 rounded transition-colors`}
-          >
-            <span className="text-base sm:text-lg md:text-xl">
-              <FaExclamationTriangle size={16} className="sm:w-5 sm:h-5" />
-            </span>
-            <span className="text-xs mt-1 hidden sm:inline">Report</span>
-          </button>
-        </div>
-
-        <div className="flex items-center space-x-1 sm:space-x-3">
-          <div className="relative">
-            <button
-              onClick={() => setShowNotifications(!showNotifications)}
-              className="relative focus:outline-none hover:bg-gray-100 rounded-full p-1 sm:p-2"
-            >
-              <span className="text-[#f69f00]">
-                <FaBell size={16} className="sm:w-5 sm:h-5" />
-              </span>
-              {notifications.filter((n) => !n.read).length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full h-3 w-3 sm:h-4 sm:w-4 flex items-center justify-center text-xs">
-                  {notifications.filter((n) => !n.read).length}
-                </span>
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            <div className="relative">
+              <button
+                onClick={() => setShowNotifications(!showNotifications)}
+                className="relative p-2 sm:p-3 rounded-full bg-white/60 hover:bg-white/80 transition-all duration-300 shadow-md hover:shadow-lg group"
+              >
+                <FaBell size={16} className="text-[#f69f00] transition-transform duration-300 group-hover:scale-110 group-hover:rotate-12" />
+                {notifications.filter((n) => !n.read).length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full h-4 w-4 sm:h-5 sm:w-5 flex items-center justify-center text-xs font-bold animate-bounce shadow-lg">
+                    {notifications.filter((n) => !n.read).length}
+                  </span>
+                )}
+              </button>
+              {showNotifications && (
+                <div className="absolute right-0 mt-2 w-72 sm:w-80 bg-white rounded-2xl shadow-2xl border border-gray-200 py-2 z-50 animate-in slide-in-from-top-2">
+                  <div className="px-4 py-3 border-b border-gray-100">
+                    <h3 className="font-bold text-gray-900 text-lg">Notifications</h3>
+                  </div>
+                  <div className="max-h-96 overflow-y-auto">
+                    {notifications.map((notification) => (
+                      <div
+                        key={notification.id}
+                        className={`px-4 py-3 hover:bg-gray-50 cursor-pointer transition-all duration-200 ${!notification.read ? "bg-blue-50 border-l-4 border-blue-500" : ""
+                          }`}
+                        onClick={() => markNotificationAsRead(notification.id)}
+                      >
+                        <p className="text-gray-800 text-sm font-medium">{notification.message}</p>
+                        <p className="text-xs text-gray-500 mt-1">{notification.time}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
-            </button>
-            {showNotifications && (
-              <div className="absolute right-0 mt-2 w-64 sm:w-80 bg-white rounded-lg shadow-lg py-1 z-50">
-                <div className="px-3 sm:px-4 py-2 border-b border-gray-200">
-                  <h3 className="text-base sm:text-lg font-semibold text-gray-700">
-                    Notifications
-                  </h3>
+            </div>
+
+            <div className="relative">
+              <button
+                onClick={() => setShowProfileMenu(!showProfileMenu)}
+                className="flex items-center space-x-2 p-2 rounded-xl bg-white/60 hover:bg-white/80 transition-all duration-300 shadow-md hover:shadow-lg group"
+              >
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#005524] to-[#f69f00] flex items-center justify-center text-white font-bold text-sm shadow-lg">
+                  {activeUser.charAt(0)}
                 </div>
-                <div className="max-h-64 sm:max-h-96 overflow-y-auto">
-                  {notifications.map((notification) => (
-                    <div
-                      key={notification.id}
-                      className={`px-3 sm:px-4 py-3 hover:bg-gray-50 cursor-pointer ${!notification.read ? "bg-blue-50" : ""
-                        }`}
-                      onClick={() => markNotificationAsRead(notification.id)}
-                    >
-                      <p className="text-gray-800 text-sm">{notification.message}</p>
-                      <p className="text-xs sm:text-sm text-gray-500 mt-1">
-                        {notification.time}
-                      </p>
-                    </div>
-                  ))}
+                <div className="hidden sm:flex items-center text-[#005524]">
+                  <span className="font-semibold text-sm">{activeUser}</span>
+                  <FaEllipsisH className="ml-1 text-xs transition-transform duration-300 group-hover:rotate-90" />
                 </div>
-              </div>
-            )}
-          </div>
-          <div className="relative">
-            <button
-              onClick={() => setShowProfileMenu(!showProfileMenu)}
-              className="flex items-center space-x-1 sm:space-x-2 focus:outline-none hover:bg-gray-100 rounded-lg px-1 sm:px-2 py-1"
-            >
-              <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gray-300 flex items-center justify-center text-white">
-                👤
-              </div>
-              <div className="flex items-center text-[#005524] hidden sm:flex">
-                <span className="font-medium text-sm truncate max-w-20 sm:max-w-none">{activeUser}</span>
-                <span className={`ml-1 transition-transform ${showProfileMenu ? 'rotate-180' : ''}`}>▼</span>
-              </div>
-            </button>
-            {showProfileMenu && (
-              <div className="absolute right-0 mt-2 w-40 sm:w-48 bg-white rounded-lg shadow-lg py-1 z-50">
-                <button
-                  onClick={() => handleProfileAction("profile")}
-                  className="w-full px-3 sm:px-4 py-2 text-left text-gray-700 hover:bg-gray-100 flex items-center text-sm"
-                >
-                  <span className="mr-2">
-                    <FaUser size={14} />
-                  </span>{" "}
-                  Profile
-                </button>
-                <button
-                  onClick={() => handleProfileAction("settings")}
-                  className="w-full px-3 sm:px-4 py-2 text-left text-gray-700 hover:bg-gray-100 flex items-center text-sm"
-                >
-                  <span className="mr-2">
-                    <FaCog size={14} />
-                  </span>{" "}
-                  Settings
-                </button>
-                <div className="border-t border-gray-200 my-1"></div>
-                <button
-                  onClick={() => handleProfileAction("logout")}
-                  className="w-full px-3 sm:px-4 py-2 text-left text-red-600 hover:bg-gray-100 flex items-center text-sm"
-                >
-                  <span className="mr-2">
-                    <FaSignOutAlt size={14} />
-                  </span>{" "}
-                  Logout
-                </button>
-              </div>
-            )}
+              </button>
+              {showProfileMenu && (
+                <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-200 py-2 z-50 animate-in slide-in-from-top-2">
+                  <div className="px-4 py-3 border-b border-gray-100">
+                    <p className="font-bold text-gray-900">{activeUser}</p>
+                    <p className="text-sm text-gray-500">Emergency Response Network</p>
+                  </div>
+                  <button
+                    onClick={() => handleProfileAction("profile")}
+                    className="w-full px-4 py-3 text-left text-gray-700 hover:bg-gray-50 flex items-center text-sm transition-all duration-200 group"
+                  >
+                    <FaUser className="mr-3 text-[#005524] group-hover:scale-110 transition-transform duration-200" />
+                    Profile
+                  </button>
+                  <button
+                    onClick={() => handleProfileAction("settings")}
+                    className="w-full px-4 py-3 text-left text-gray-700 hover:bg-gray-50 flex items-center text-sm transition-all duration-200 group"
+                  >
+                    <FaCog className="mr-3 text-[#005524] group-hover:scale-110 transition-transform duration-200" />
+                    Settings
+                  </button>
+                  <div className="border-t border-gray-100 my-1"></div>
+                  <button
+                    onClick={() => handleProfileAction("logout")}
+                    className="w-full px-4 py-3 text-left text-red-600 hover:bg-red-50 flex items-center text-sm transition-all duration-200 group"
+                  >
+                    <FaSignOutAlt className="mr-3 group-hover:scale-110 transition-transform duration-200" />
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
       <div className="flex flex-1 relative flex-col lg:flex-row">
-        {/* Left Side - Map & Device Info */}
-        <div className="w-full lg:w-1/4 p-2 sm:p-3 lg:p-4 flex flex-col space-y-2 sm:space-y-3 lg:space-y-4 order-2 lg:order-1">
-          {/* Search bar for mobile */}
+        {/* Left Side - Enhanced Device Info & Safety Tips */}
+        <div className="w-full lg:w-1/4 p-3 sm:p-4 lg:p-6 flex flex-col space-y-4 lg:space-y-6 order-2 lg:order-1">
+          {/* Mobile Search */}
           <div className="relative sm:hidden">
             <input
               type="text"
-              placeholder="Search..."
-              className="bg-white rounded-lg px-3 py-2 w-full text-sm border border-gray-300"
+              placeholder="Search emergencies..."
+              className="w-full bg-white/80 backdrop-blur-sm rounded-full px-4 py-3 text-sm border-2 border-transparent focus:border-[#005524] focus:outline-none transition-all duration-300 shadow-md hover:shadow-lg"
             />
-            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500">
-              <FaSearch size={14} />
+            <button className="absolute right-3 top-1/2 transform -translate-y-1/2 text-[#005524] hover:text-[#f69f00] transition-colors duration-300">
+              <FaSearch size={16} />
             </button>
           </div>
 
-          <div className="bg-[#005524] rounded-lg shadow-md p-2 sm:p-3 lg:p-4">
-            <h2 className="text-lg sm:text-xl font-bold text-white mb-2 sm:mb-4">Your Device</h2>
-            <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row items-start sm:items-center lg:items-start xl:items-center space-y-2 sm:space-y-0 sm:space-x-4 lg:space-x-0 lg:space-y-2 xl:space-y-0 xl:space-x-4">
-              <div className="bg-white/20 p-2 rounded-lg">
-                <span className="text-white text-lg sm:text-2xl">📱</span>
+          <div className="bg-gradient-to-br from-[#005524] to-[#005524] rounded-2xl shadow-xl p-4 sm:p-6">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-white">Your Device</h2>
+              <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
+                <span className="text-2xl">📱</span>
               </div>
-              <div className="flex-1">
-                <div className="flex flex-col sm:flex-row lg:flex-col xl:flex-row items-start sm:items-center lg:items-start xl:items-center space-y-1 sm:space-y-0 sm:space-x-2 lg:space-x-0 lg:space-y-1 xl:space-y-0 xl:space-x-2">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-white/90 font-medium text-sm">ID:</span>
-                    <span className="text-white text-sm">01-JM-C24</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-white/90 font-medium text-sm">Status:</span>
-                    <span
-                      className={`font-medium text-sm ${deviceStatus === "Active"
-                        ? "text-[#f69f00]"
-                        : "text-[#be4c1d]"
-                        }`}
-                    >
-                      {deviceStatus}
-                    </span>
-                  </div>
-                </div>
-                <button
-                  className={`rounded-lg w-full sm:w-auto lg:w-full xl:w-auto mt-2 sm:mt-0 lg:mt-2 xl:mt-0 ${deviceStatus === "Active"
-                    ? "bg-[#be4c1d] hover:bg-[#004015]"
-                    : "bg-[#f69f00] hover:bg-[#be4c1d]"
-                    } text-white py-2 px-3 sm:px-4 flex items-center justify-center transition-colors text-sm`}
-                  onClick={() =>
-                    setDeviceStatus(
-                      deviceStatus === "Active" ? "Inactive" : "Active"
-                    )
-                  }
-                >
-                  {deviceStatus === "Active" ? "Deactivate" : "Activate"}
-                </button>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between p-3 bg-white/10 rounded-xl">
+                <span className="text-white/90 font-medium">Device ID:</span>
+                <span className="text-white font-bold">01-JD-C24</span>
               </div>
+              <div className="flex items-center justify-between p-3 bg-white/10 rounded-xl">
+                <span className="text-white/90 font-medium">Status:</span>
+                <span className={`font-bold px-3 py-1 rounded-full text-sm ${deviceStatus === "Active"
+                  ? "bg-green-500 text-white"
+                  : "bg-red-500 text-white"
+                  }`}>
+                  {deviceStatus}
+                </span>
+              </div>
+              <button
+                className={`w-full py-3 px-4 rounded-xl font-bold text-white transition-all duration-300 transform hover:scale-105 shadow-lg ${deviceStatus === "Active"
+                  ? "bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700"
+                  : "bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700"
+                  }`}
+                onClick={() => setDeviceStatus(deviceStatus === "Active" ? "Inactive" : "Active")}
+              >
+                {deviceStatus === "Active" ? "Deactivate Device" : "Activate Device"}
+              </button>
             </div>
           </div>
 
-          {/* Safety Tips - Hidden on mobile, shown on larger screens */}
-          <div className="bg-[#005524] rounded-lg shadow-md p-2 sm:p-3 lg:p-4 hidden sm:block">
-            <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-2 sm:mb-4">Safety Tips</h2>
-            <div className="space-y-1 sm:space-y-2">
+          <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 hidden sm:block">
+            <h2 className="text-xl sm:text-2xl font-bold text-[#005524] mb-4 flex items-center">
+              <FaShieldAlt className="mr-2 text-[#f69f00]" />
+              Safety Tips
+            </h2>
+            <div className="space-y-3">
               {type.map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-center p-2 rounded-lg bg-white/10 hover:bg-white/20 cursor-pointer transition-colors duration-200"
+                  className="group flex items-center p-4 rounded-2xl bg-gradient-to-r from-gray-50 to-white hover:from-[#005524]/10 hover:to-[#005524]/20 cursor-pointer transition-all duration-300 transform hover:scale-105 hover:shadow-xl border-2 border-transparent hover:border-[#005524]/30 active:scale-95"
                   onClick={() => {
                     setSelectedSafetyTip(item);
                     setShowSafetyTipModal(true);
                   }}
                 >
-                  <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#f69f00]-300 flex items-center justify-center text-white">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#f69f00] to-[#be4c1d] flex items-center justify-center text-white shadow-lg group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
                     {iconMap[item.icon] ? React.createElement(iconMap[item.icon]) : '?'}
                   </div>
-                  <span className="text-white ml-2 sm:ml-3 text-sm">
-                    {item.name || "Unknown Type"}
+                  <span className="text-gray-800 ml-4 font-semibold group-hover:text-[#005524] transition-colors duration-300">
+                    {item.name}
                   </span>
+                  <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <FaInfoCircle className="text-[#005524] text-lg" />
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Center - Main Feed */}
-        <div className="w-full lg:w-2/4 p-2 sm:p-3 lg:p-4 order-1 lg:order-2">
-          <div className="bg-[#005524] border border-gray-300 rounded-lg p-3 sm:p-4 mb-2 sm:mb-4 flex items-center justify-center">
-            <div className="flex items-center space-x-3 sm:space-x-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-300 flex items-center justify-center text-white text-lg sm:text-xl">
-                👤
+        <div className="w-full lg:w-2/4 p-3 sm:p-4 lg:p-6 order-1 lg:order-2">
+          <div className="bg-gradient-to-r from-[#005524] to-[#004015] rounded-2xl shadow-xl p-2 sm:p-3 mb-6">
+            <div className="flex flex-col items-center text-center space-y-2">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-white to-gray-100 flex items-center justify-center text-[#005524] font-bold text-2xl shadow-lg">
+                {activeUser.charAt(0)}
               </div>
               <div>
-                <span className="text-white text-base sm:text-lg font-medium">
-                  {activeUser}
-                </span>
+                <h3 className="text-white text-xl sm:text-2xl font-bold">{activeUser}</h3>
               </div>
             </div>
-          </div>          {emergencies.map((emergency) => (
+          </div>
+
+          {emergencies.map((emergency) => (
             <div
               key={emergency.id}
-              className="bg-[#f8eed4] border border-gray-800 rounded-lg mb-3 sm:mb-4 overflow-hidden"
+              className="bg-white rounded-2xl shadow-xl mb-6 overflow-hidden transform hover:scale-105 transition-all duration-300 border border-gray-100 hover:border-[#005524]/20"
             >
-              <div className="bg-[#f8eed4] p-3 sm:p-4 flex items-start sm:items-center space-x-3">
-                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gray-300 flex items-center justify-center text-white text-sm sm:text-base flex-shrink-0">
-                  👤
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-[#005524] font-medium text-sm sm:text-base truncate">
-                    {emergency.name}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-gray-600 truncate sm:overflow-visible sm:whitespace-normal">{emergency.emergency}</p>
-                </div>
-                <div className="flex-shrink-0">
+              <div className="p-4 sm:p-6">
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#005524] to-[#f69f00] flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                    {emergency.name.charAt(0)}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <h3 className="text-[#005524] font-bold text-lg">{emergency.name}</h3>
+                      <span className="text-gray-400">•</span>
+                      <span className="text-gray-500 text-sm">Just now</span>
+                    </div>
+                    <p className="text-gray-600 text-sm mb-3 bg-gray-50 px-3 py-2 rounded-lg inline-block">
+                      {emergency.emergency}
+                    </p>
+                    <p className="text-gray-900 font-semibold text-lg leading-relaxed">
+                      {emergency.message}
+                    </p>
+                  </div>
                   <button
                     onClick={() => handleViewLocation(emergency)}
-                    className="flex items-center text-green-600 text-xs sm:text-sm hover:text-green-700 transition-colors px-1 sm:px-0"
+                    className="text-[#005524] hover:text-[#f69f00] transition-colors duration-300 p-2 rounded-full hover:bg-gray-100"
                   >
-                    <span className="mr-1">
-                      <FaMapMarkerAlt size={12} className="sm:w-4 sm:h-4" />
-                    </span>
-                    <span className="hidden sm:inline">View Location</span>
-                    <span className="sm:hidden">Location</span>
+                    <FaMapMarkerAlt size={20} />
                   </button>
                 </div>
               </div>
-              <div className="px-3 sm:px-4 py-2 border-t border-gray-800">
-                <h4 className="text-base sm:text-xl font-bold text-[#005524] mb-1 sm:mb-2 leading-tight">
-                  {emergency.message}
-                </h4>
-              </div>
-              <div className="flex flex-col sm:flex-row border-t border-gray-300">
-                <button
-                  onClick={() => handleCallAssistance(emergency)}
-                  className="flex-1 bg-[#005524] text-white py-3 sm:py-2 px-3 sm:px-4 flex items-center justify-center hover:bg-[#004015] transition-colors text-sm sm:text-base"
-                >
-                  <span className="mr-2">
-                    <FaPhone size={14} className="sm:w-4 sm:h-4" />
-                  </span>
-                  <span className="hidden sm:inline">Call Assistance</span>
-                  <span className="sm:hidden">Call</span>
-                </button>
-                <button
-                  onClick={() => handleReport(emergency)}
-                  className="flex-1 bg-[#be4c1d] text-white py-3 sm:py-2 px-3 sm:px-4 flex items-center justify-center hover:bg-[#a33d16] transition-colors border-t sm:border-t-0 sm:border-l border-gray-300 text-sm sm:text-base"
-                >
-                  <span className="mr-2">
-                    <FaExclamationTriangle size={14} className="sm:w-4 sm:h-4" />
-                  </span>
-                  <span className="hidden sm:inline">Report</span>
-                  <span className="sm:hidden">Report</span>
-                </button>
+
+              {/* Action Buttons */}
+              <div className="border-t border-gray-100">
+                <div className="flex">
+                  <button
+                    onClick={() => handleCallAssistance(emergency)}
+                    className="flex-1 py-4 px-6 text-center text-[#005524] hover:bg-[#005524] hover:text-white font-semibold transition-all duration-300 flex items-center justify-center group"
+                  >
+                    <FaPhone className="mr-2 group-hover:scale-110 transition-transform duration-300" />
+                    Call Assistance
+                  </button>
+                  <div className="w-px bg-gray-200"></div>
+                  <button
+                    onClick={() => handleReport(emergency)}
+                    className="flex-1 py-4 px-6 text-center text-[#be4c1d] hover:bg-[#be4c1d] hover:text-white font-semibold transition-all duration-300 flex items-center justify-center group"
+                  >
+                    <FaExclamationTriangle className="mr-2 group-hover:scale-110 transition-transform duration-300" />
+                    Report
+                  </button>
+                </div>
               </div>
             </div>
           ))}
-        </div>        {/* Right Side - Connections */}
-        <div className="w-full lg:w-1/4 p-2 sm:p-3 lg:p-4 order-3 lg:order-3">
-          <div className="w-full bg-[#005524] rounded-lg p-3 sm:p-4 mb-3 sm:mb-4">
-            <h3 className="text-base sm:text-lg font-bold text-white mb-1">
+        </div>
+
+        {/* Right Side - Connections & Alerts */}
+        <div className="w-full lg:w-1/4 p-3 sm:p-4 lg:p-6 order-3 lg:order-3">
+          {/* Crisis Response Card */}
+          <div className="bg-gradient-to-br from-[#005524] to-[#005524] rounded-2xl shadow-xl p-4 sm:p-6 mb-6">
+            <h3 className="text-white text-lg sm:text-xl font-bold mb-3 flex items-center">
+              <FaExclamationTriangle className="mr-2" />
               Crisis Response
             </h3>
-            <p className="text-xs sm:text-sm text-white mb-3 text-center">
+            <p className="text-white/90 text-sm mb-4 text-center">
               Respond to nearby emergencies or mark yourself as safe.
             </p>
             {isSafe ? (
-              <div className="flex flex-col items-center justify-center gap-2 text-[#f69f00] font-semibold">
-                <FaCheck className="text-xl sm:text-2xl" />
-                <span className="text-xs sm:text-sm text-center">You are marked as Safe</span>
+              <div className="text-center">
+                <div className="w-16 h-16 rounded-full bg-green-500 flex items-center justify-center mx-auto mb-3 shadow-lg">
+                  <FaCheck className="text-white text-2xl" />
+                </div>
+                <p className="text-white font-bold text-sm mb-2">You are marked as Safe</p>
                 <button
-                  className="text-xs text-[#be4c1d] underline hover:text-red-700"
+                  className="text-white/80 text-sm underline hover:text-white transition-colors duration-300"
                   onClick={resetCrisisAlert}
                 >
                   Undo
                 </button>
               </div>
             ) : (
-              <div className="flex flex-col items-center gap-2">
-                <p className="text-white font-semibold text-xs sm:text-sm text-center">
+              <div className="text-center">
+                <p className="text-white font-semibold text-sm mb-4">
                   {crisisAlert.isSelf
                     ? `You reported a ${crisisAlert.type} Alert`
                     : `${crisisAlert.type} Alert reported by ${crisisAlert.reporter} nearby`}
                 </p>
                 <button
-                  className="bg-[#f69f00] hover:bg-green-700 text-white px-4 sm:px-6 py-2 rounded-lg font-semibold flex items-center gap-2 transition-colors text-xs sm:text-sm"
+                  className="w-full bg-white text-[#f69f00] py-3 px-4 rounded-xl font-bold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center"
                   onClick={() => setIsSafe(true)}
                 >
-                  <FaCheck /> I am Safe
+                  <FaCheck className="mr-2" /> I am Safe
                 </button>
               </div>
             )}
           </div>
 
-          <div className="bg-[#005524] rounded-lg shadow-md p-3 sm:p-4">
-            <h2 className="text-lg sm:text-2xl font-bold text-white mb-3 sm:mb-4">Connections</h2>
-            <div className="space-y-1 sm:space-y-2 max-h-32 sm:max-h-48 lg:max-h-none overflow-y-auto">
-              {connections.map((connection) => (
+          {/* Connections Card */}
+          <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6 mb-6">
+            <h3 className="text-[#005524] text-lg sm:text-xl font-bold mb-4 flex items-center">
+              <FaUser className="mr-2 text-[#f69f00]" />
+              Connections
+            </h3>
+            <div className="space-y-3">
+              {connections.slice(0, 5).map((connection) => (
                 <div
                   key={connection.id}
-                  className="flex items-center p-2 rounded-lg bg-white/10 hover:bg-white/20 cursor-pointer transition-colors duration-200"
+                  className="group flex items-center p-3 rounded-xl hover:bg-gray-50 cursor-pointer transition-all duration-300 transform hover:scale-105"
                   onClick={() => setSelectedConnection(connection)}
                 >
-                  <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-gray-300 flex items-center justify-center text-white text-xs sm:text-base">
-                    👤
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#005524] to-[#f69f00] flex items-center justify-center text-white font-bold shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    {connection.name.charAt(0)}
                   </div>
-                  <span className="text-white ml-2 sm:ml-3 text-xs sm:text-sm truncate">{connection.name}</span>
+                  <div className="flex-1 min-w-0 ml-3">
+                    <p className="font-semibold text-gray-900 truncate">{connection.name}</p>
+                    <p className="text-green-600 text-sm font-medium">Active now</p>
+                  </div>
                 </div>
               ))}
             </div>
-
-            <div className="mt-3 sm:mt-4">
-              <h3 className="text-base sm:text-lg font-bold text-white mb-2">
-                Emergency Alerts
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <button
-                  onClick={() => handleEmergencyAlert("Fire")}
-                  className="bg-red-600 text-white py-2 px-2 sm:px-3 rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center text-xs sm:text-sm min-h-[40px] sm:min-h-[44px]"
-                >
-                  <FaFire className="mr-1 flex-shrink-0" />
-                  <span className="truncate">Fire Alert</span>
-                </button>
-                <button
-                  onClick={() => handleEmergencyAlert("Police")}
-                  className="bg-blue-600 text-white py-2 px-2 sm:px-3 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center text-xs sm:text-sm min-h-[40px] sm:min-h-[44px]"
-                >
-                  <FaShieldAlt className="mr-1 flex-shrink-0" />
-                  <span className="truncate">Police Alert</span>
-                </button>
-                <button
-                  onClick={() => handleEmergencyAlert("Accident")}
-                  className="bg-yellow-600 text-white py-2 px-2 sm:px-3 rounded-lg hover:bg-yellow-700 transition-colors flex items-center justify-center text-xs sm:text-sm min-h-[40px] sm:min-h-[44px]"
-                >
-                  <FaCarCrash className="mr-1 flex-shrink-0" />
-                  <span className="truncate">Accident Alert</span>
-                </button>
-                <button
-                  onClick={() => handleEmergencyAlert("Medical")}
-                  className="bg-green-600 text-white py-2 px-2 sm:px-3 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center text-xs sm:text-sm min-h-[40px] sm:min-h-[44px]"
-                >
-                  <FaAmbulance className="mr-1 flex-shrink-0" />
-                  <span className="truncate">Medical Alert</span>
-                </button>
-              </div>
-            </div>
+            <button className="w-full mt-4 text-[#005524] hover:text-[#f69f00] font-semibold text-sm transition-colors duration-300">
+              See all connections →
+            </button>
           </div>
 
-          {selectedConnection && (<div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg p-4 sm:p-6 w-full max-w-sm sm:max-w-md lg:max-w-lg shadow-xl max-h-[90vh] overflow-y-auto">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg sm:text-2xl font-bold text-[#005524]">
-                  Connection Details
-                </h2>
-                <button
-                  onClick={() => {
-                    setSelectedConnection(null);
-                    setConnectionTab("profile");
-                    setMessageText("");
-                    setMessageSent(false);
-                  }}
-                  className="text-gray-500 hover:text-gray-700 p-1"
-                >
-                  ✕
-                </button>
-              </div>
-              <div className="flex flex-col items-center space-y-3 sm:space-y-4">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gray-300 flex items-center justify-center text-white text-2xl sm:text-3xl">
-                  👤
-                </div>
-                <div className="text-center">
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-800">
-                    {selectedConnection.name}
-                  </h3>
-                </div>
-                <div className="flex justify-center gap-2 sm:gap-4 mb-2">
-                  <button
-                    className={`px-3 sm:px-4 py-1 rounded-full font-medium text-xs sm:text-sm transition-colors ${connectionTab === "profile"
-                      ? "bg-[#005524] text-white"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                      }`}
-                    onClick={() => setConnectionTab("profile")}
-                  >
-                    Profile
-                  </button>
-                  <button
-                    className={`px-3 sm:px-4 py-1 rounded-full font-medium text-xs sm:text-sm transition-colors ${connectionTab === "message"
-                      ? "bg-[#005524] text-white"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                      }`}
-                    onClick={() => setConnectionTab("message")}
-                  >
-                    Message
-                  </button>
-                </div>
-                {connectionTab === "profile" && (
-                  <div className="w-full text-left space-y-2">
-                    <div className="mb-2 p-2 bg-gray-50 rounded text-sm">
-                      <span className="font-semibold text-gray-700 flex items-center">
-                        <span className="inline-block mr-2">
-                          <FaEnvelope size={14} />
-                        </span>
-                        Email:
-                      </span>
-                      <span className="text-gray-600 ml-6">user@calasag.com</span>
-                    </div>
-                    <div className="mb-2 p-2 bg-gray-50 rounded text-sm">
-                      <span className="font-semibold text-gray-700 flex items-center">
-                        <span className="inline-block mr-2">
-                          <FaPhoneAlt size={14} />
-                        </span>
-                        Phone:
-                      </span>
-                      <span className="text-gray-600 ml-6">+63 900 000 0000</span>
-                    </div>
-                    <div className="mb-2 p-2 bg-gray-50 rounded text-sm">
-                      <span className="font-semibold text-gray-700 flex items-center">
-                        <span className="inline-block mr-2">
-                          <FaInfoCircle size={14} />
-                        </span>
-                        Status:
-                      </span>
-                      <span className="text-green-600 ml-6">Active</span>
-                    </div>
-                    <div className="mb-2 p-2 bg-gray-50 rounded text-sm">
-                      <span className="font-semibold text-gray-700 flex items-center mb-1">
-                        <span className="inline-block mr-2">
-                          <FaInfoCircle size={14} />
-                        </span>
-                        About:
-                      </span>
-                      <span className="text-gray-600 ml-6 text-xs leading-relaxed">
-                        This is a placeholder profile. More info can be added here.
-                      </span>
-                    </div>
-                  </div>
-                )}
-                {connectionTab === "message" && (
-                  <div className="w-full flex flex-col items-center">
-                    {messageSent ? (
-                      <div className="text-green-600 font-semibold mb-2 text-sm sm:text-base">
-                        Message sent!
-                      </div>
-                    ) : (
-                      <>
-                        <textarea
-                          className="w-full border border-gray-300 rounded-lg p-2 sm:p-3 mb-2 sm:mb-3 focus:outline-none focus:ring-2 focus:ring-[#005524] text-sm resize-none"
-                          rows={3}
-                          placeholder={`Message to ${selectedConnection.name}`}
-                          value={messageText}
-                          onChange={(e) => setMessageText(e.target.value)}
-                        />
-                        <button
-                          className="bg-[#005524] text-white px-4 py-2 rounded-lg font-semibold hover:bg-[#004015] transition-colors text-sm w-full sm:w-auto disabled:opacity-50 disabled:cursor-not-allowed"
-                          onClick={() =>
-                            handleSendMessage(
-                              selectedConnection.name,
-                              messageText
-                            )
-                          }
-                          disabled={!messageText.trim()}
-                        >
-                          Send Message
-                        </button>
-                      </>
-                    )}
-                  </div>
-                )}
-              </div>
+          {/* Emergency Alerts Card */}
+          <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-6">
+            <h3 className="text-[#005524] text-lg sm:text-xl font-bold mb-4 flex items-center">
+              <FaBell className="mr-2 text-[#f69f00]" />
+              Emergency Alerts
+            </h3>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => handleEmergencyAlert("Fire")}
+                className="bg-gradient-to-br from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-4 px-3 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 hover:shadow-lg active:scale-95 flex flex-col items-center group"
+              >
+                <FaFire className="mb-2 text-xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" />
+                <span className="text-sm font-medium">Fire</span>
+              </button>
+              <button
+                onClick={() => handleEmergencyAlert("Police")}
+                className="bg-gradient-to-br from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-4 px-3 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 hover:shadow-lg active:scale-95 flex flex-col items-center group"
+              >
+                <FaShieldAlt className="mb-2 text-xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" />
+                <span className="text-sm font-medium">Police</span>
+              </button>
+              <button
+                onClick={() => handleEmergencyAlert("Accident")}
+                className="bg-gradient-to-br from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-white py-4 px-3 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 hover:shadow-lg active:scale-95 flex flex-col items-center group"
+              >
+                <FaCarCrash className="mb-2 text-xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" />
+                <span className="text-sm font-medium">Accident</span>
+              </button>
+              <button
+                onClick={() => handleEmergencyAlert("Medical")}
+                className="bg-gradient-to-br from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-4 px-3 rounded-2xl font-bold transition-all duration-300 transform hover:scale-105 hover:shadow-lg active:scale-95 flex flex-col items-center group"
+              >
+                <FaAmbulance className="mb-2 text-xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" />
+                <span className="text-sm font-medium">Medical</span>
+              </button>
             </div>
           </div>
-          )}
         </div>
+      </div>
 
-        {showMessages && (
-          <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-[600px] max-h-[80vh] overflow-y-auto shadow-xl">
-              <div className="flex justify-between items-center mb-4">
-                <div className="flex items-center">
-                  {!showChatList && (
-                    <button
-                      onClick={() => setShowChatList(true)}
-                      className="mr-4 text-gray-500 hover:text-gray-700"
-                    >
-                      ←
-                    </button>
-                  )}
-                  <h2 className="text-2xl font-bold text-[#005524]">
-                    {showChatList ? "Messages" : `${currentChatRecipient}`}
-                  </h2>
-                </div>
-                <button
-                  onClick={() => {
-                    setShowMessages(false);
-                    setShowChatList(true);
-                    setCurrentChatRecipient("");
-                  }}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  ✕
-                </button>
+      {showMessages && (
+        <div className="fixed inset-0 backdrop-blur-lg bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl p-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl border-0 transform animate-in zoom-in-95">
+            <div className="flex justify-between items-center mb-4">
+              <div className="flex items-center">
+                {!showChatList && (
+                  <button
+                    onClick={() => setShowChatList(true)}
+                    className="mr-4 text-gray-500 hover:text-gray-700 transition-all duration-300 hover:scale-110 hover:-translate-x-1"
+                  >
+                    ←
+                  </button>
+                )}
+                <h2 className="text-2xl font-bold text-[#005524]">
+                  {showChatList ? "Messages" : `${currentChatRecipient}`}
+                </h2>
               </div>
+              <button
+                onClick={() => {
+                  setShowMessages(false);
+                  setShowChatList(true);
+                  setCurrentChatRecipient("");
+                }}
+                className="text-gray-500 hover:text-gray-700 transition-all duration-300 hover:scale-110 hover:rotate-90"
+              >
+                ✕
+              </button>
+            </div>
 
-              {showChatList ? (
-                <div className="space-y-2">
-                  {getUniqueChatRecipients().length === 0 ? (
-                    <p className="text-gray-600">No conversations yet.</p>
-                  ) : (
-                    getUniqueChatRecipients().map((recipient) => {
-                      const lastMessage = getLastMessage(recipient);
-                      return (
-                        <div
-                          key={recipient}
-                          onClick={() => {
-                            setCurrentChatRecipient(recipient);
-                            setShowChatList(false);
-                          }}
-                          className="p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors"
-                        >
-                          <div className="flex items-center space-x-3">
-                            <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white">
-                              👤
+            {showChatList ? (
+              <div className="space-y-2">
+                {getUniqueChatRecipients().length === 0 ? (
+                  <p className="text-gray-600">No conversations yet.</p>
+                ) : (
+                  getUniqueChatRecipients().map((recipient) => {
+                    const lastMessage = getLastMessage(recipient);
+                    return (
+                      <div
+                        key={recipient}
+                        onClick={() => {
+                          setCurrentChatRecipient(recipient);
+                          setShowChatList(false);
+                        }}
+                        className="p-4 hover:bg-gradient-to-r hover:from-[#005524]/5 hover:to-[#005524]/10 rounded-xl cursor-pointer transition-all duration-300 transform hover:scale-105 border border-transparent hover:border-[#005524]/20"
+                      >
+                        <div className="flex items-center space-x-3">
+                          <div className="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center text-white">
+                            👤
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex justify-between items-start">
+                              <h3 className="font-medium text-gray-900">
+                                {recipient}
+                              </h3>
+                              <span className="text-xs text-gray-500">
+                                {lastMessage?.timestamp}
+                              </span>
                             </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="flex justify-between items-start">
-                                <h3 className="font-medium text-gray-900">
-                                  {recipient}
-                                </h3>
-                                <span className="text-xs text-gray-500">
-                                  {lastMessage?.timestamp}
-                                </span>
-                              </div>
-                              <p className="text-sm text-gray-500 truncate">
-                                {lastMessage?.content || "No messages yet"}
-                              </p>
-                            </div>
+                            <p className="text-sm text-gray-500 truncate">
+                              {lastMessage?.content || "No messages yet"}
+                            </p>
                           </div>
                         </div>
-                      );
-                    })
-                  )}
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {messages
-                    .filter(
-                      (message) =>
-                        (message.sender === activeUser &&
-                          message.receiver === currentChatRecipient) ||
-                        (message.sender === currentChatRecipient &&
-                          message.receiver === activeUser)
-                    )
-                    .map((message) => (
-                      <div
-                        key={message.id}
-                        className={`p-3 rounded-lg ${message.sender === activeUser
-                          ? "bg-[#005524] text-white ml-auto"
-                          : "bg-gray-100 text-gray-800"
-                          } max-w-[80%]`}
-                      >
-                        <div className="flex justify-between items-start mb-1">
-                          <span className="font-medium text-sm">
-                            {message.sender === activeUser
-                              ? "You"
-                              : message.sender}
-                          </span>
-                          <span className="text-xs opacity-75">
-                            {message.timestamp}
-                          </span>
-                        </div>
-                        <p className="text-sm">{message.content}</p>
                       </div>
-                    ))}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {showReport && (
-          <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-96 max-h-[80vh] overflow-y-auto shadow-xl">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-[#005524]">
-                  Report an Emergency
-                </h2>
-                <button
-                  onClick={() => setShowReport(false)}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  ✕
-                </button>
+                    );
+                  })
+                )}
               </div>
-              <form className="space-y-4">
-                <div>
-                  <label className="block text-gray-700 font-medium mb-2">
-                    Emergency Type
-                  </label>
-                  <select className="w-full p-2 border border-gray-300 rounded-lg">
-                    <option>Medical Emergency</option>
-                    <option>Fire</option>
-                    <option>Accident</option>
-                    <option>Crime</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-gray-700 font-medium mb-2">
-                    Description
-                  </label>
-                  <textarea
-                    className="w-full p-2 border border-gray-300 rounded-lg"
-                    rows={4}
-                    placeholder="Describe the emergency situation..."
-                  />
-                </div>
-                <div>
-                  <label className="block text-gray-700 font-medium mb-2">
-                    Location
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full p-2 border border-gray-300 rounded-lg"
-                    placeholder="Enter your location"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-[#005524] text-white py-2 px-4 rounded-lg hover:bg-[#004015] transition-colors"
-                >
-                  Submit Report
-                </button>
-              </form>
+            ) : (
+              <div className="space-y-4">
+                {messages
+                  .filter(
+                    (message) =>
+                      (message.sender === activeUser &&
+                        message.receiver === currentChatRecipient) ||
+                      (message.sender === currentChatRecipient &&
+                        message.receiver === activeUser)
+                  )
+                  .map((message) => (
+                    <div
+                      key={message.id}
+                      className={`p-4 rounded-2xl shadow-md max-w-[80%] transform hover:scale-105 transition-all duration-300 ${message.sender === activeUser
+                        ? "bg-gradient-to-r from-[#005524] to-[#004015] text-white ml-auto"
+                        : "bg-gradient-to-r from-gray-100 to-gray-200 text-gray-800"
+                        }`}
+                    >
+                      <div className="flex justify-between items-start mb-1">
+                        <span className="font-medium text-sm">
+                          {message.sender === activeUser
+                            ? "You"
+                            : message.sender}
+                        </span>
+                        <span className="text-xs opacity-75">
+                          {message.timestamp}
+                        </span>
+                      </div>
+                      <p className="text-sm">{message.content}</p>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {showReport && (
+        <div className="fixed inset-0 backdrop-blur-lg bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl p-8 w-full max-w-md max-h-[90vh] overflow-y-auto shadow-2xl border-0 transform animate-in zoom-in-95">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-[#005524]">
+                Report an Emergency
+              </h2>
+              <button
+                onClick={() => setShowReport(false)}
+                className="text-gray-500 hover:text-gray-700 transition-all duration-300 hover:scale-110 hover:rotate-90"
+              >
+                ✕
+              </button>
+            </div>
+            <form className="space-y-4">
+              <div>
+                <label className="block text-gray-700 font-medium mb-2">
+                  Emergency Type
+                </label>
+                <select className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-[#005524] focus:outline-none transition-all duration-300 bg-white shadow-sm hover:shadow-lg focus:shadow-xl">
+                  <option>Medical Emergency</option>
+                  <option>Fire</option>
+                  <option>Accident</option>
+                  <option>Crime</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-gray-700 font-medium mb-2">
+                  Description
+                </label>
+                <textarea
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-[#005524] focus:outline-none transition-all duration-300 bg-white shadow-sm hover:shadow-lg focus:shadow-xl resize-none"
+                  rows={4}
+                  placeholder="Describe the emergency situation..."
+                />
+              </div>
+              <div>
+                <label className="block text-gray-700 font-medium mb-2">
+                  Location
+                </label>
+                <input
+                  type="text"
+                  className="w-full p-4 border-2 border-gray-200 rounded-2xl focus:border-[#005524] focus:outline-none transition-all duration-300 bg-white shadow-sm hover:shadow-lg focus:shadow-xl"
+                  placeholder="Enter your location"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-[#005524] to-[#004015] text-white py-4 px-8 rounded-2xl font-bold hover:from-[#004015] hover:to-[#005524] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl active:scale-95"
+              >
+                Submit Report
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {showLogoutConfirm && (
+        <div className="fixed inset-0 backdrop-blur-lg bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-gradient-to-br from-[#f69f00] to-[#be4c1d] rounded-3xl p-8 w-full max-w-md shadow-2xl border-0 transform animate-in zoom-in-95">
+            <h2 className="text-2xl font-bold text-[#005524] mb-4">
+              Confirm Logout
+            </h2>
+            <p className="text-gray-600 mb-6">
+              Are you sure you want to logout?
+            </p>
+            <div className="flex space-x-4">
+              <button
+                onClick={() => setShowLogoutConfirm(false)}
+                className="flex-1 bg-white/20 backdrop-blur-sm text-white py-3 px-6 rounded-xl font-bold hover:bg-white/30 transition-all duration-300 transform hover:scale-105 shadow-lg"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleLogout}
+                className="flex-1 bg-[#005524] text-white py-3 px-6 rounded-xl font-bold hover:bg-[#004015] transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              >
+                Logout
+              </button>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-        {showLogoutConfirm && (
-          <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
-            <div className="bg-[#f69f00] rounded-lg p-6 w-96 shadow-xl">
-              <h2 className="text-2xl font-bold text-[#005524] mb-4">
-                Confirm Logout
+      {showProfile && (
+        <div className="fixed inset-0 backdrop-blur-lg bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl border-0 transform animate-in zoom-in-95">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-[#005524]">Profile</h2>
+              <button
+                onClick={() => setShowProfile(false)}
+                className="text-gray-500 hover:text-gray-700 transition-all duration-300 hover:scale-110 hover:rotate-90"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="space-y-6">
+              <div className="flex justify-center">
+                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#005524] to-[#f69f00] flex items-center justify-center text-white text-4xl font-bold shadow-xl">
+                  {activeUser.charAt(0)}
+                </div>
+              </div>
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-gray-800 mb-1">
+                  {activeUser}
+                </h3>
+                <p className="text-gray-500 font-medium">Member since 2024</p>
+              </div>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center p-4 bg-gradient-to-r from-gray-50 to-white rounded-xl border border-gray-100 hover:shadow-md transition-all duration-300">
+                  <span className="text-gray-600 font-medium">Email</span>
+                  <span className="text-gray-800 font-semibold">user@example.com</span>
+                </div>
+                <div className="flex justify-between items-center p-4 bg-gradient-to-r from-gray-50 to-white rounded-xl border border-gray-100 hover:shadow-md transition-all duration-300">
+                  <span className="text-gray-600 font-medium">Phone</span>
+                  <span className="text-gray-800 font-semibold">+63 123 456 7890</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showSettings && (
+        <div className="fixed inset-0 backdrop-blur-lg bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl border-0 transform animate-in zoom-in-95">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-[#005524]">Settings</h2>
+              <button
+                onClick={() => setShowSettings(false)}
+                className="text-gray-500 hover:text-gray-700 transition-all duration-300 hover:scale-110 hover:rotate-90"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="space-y-6">
+              <div className="space-y-3">
+                <h3 className="font-bold text-gray-800 text-lg">Notifications</h3>
+                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-white rounded-xl border border-gray-100 hover:shadow-md transition-all duration-300">
+                  <span className="text-gray-700 font-medium">Email Notifications</span>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      className="sr-only peer"
+                      defaultChecked
+                    />
+                    <div className="w-12 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-[#005524] peer-checked:to-[#004015] shadow-lg"></div>
+                  </label>
+                </div>
+              </div>
+              <div className="space-y-3">
+                <h3 className="font-bold text-gray-800 text-lg">Privacy</h3>
+                <div className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-50 to-white rounded-xl border border-gray-100 hover:shadow-md transition-all duration-300">
+                  <span className="text-gray-700 font-medium">Location Sharing</span>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input
+                      type="checkbox"
+                      className="sr-only peer"
+                      defaultChecked
+                    />
+                    <div className="w-12 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gradient-to-r peer-checked:from-[#005524] peer-checked:to-[#004015] shadow-lg"></div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showLocationView && selectedLocation && selectedEmergency && (
+        <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-[600px] shadow-xl">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-[#005524]">
+                Emergency Location
               </h2>
-              <p className="text-gray-600 mb-6">
-                Are you sure you want to logout?
-              </p>
+              <button
+                onClick={() => setShowLocationView(false)}
+                className="text-gray-500 hover:text-gray-700 transition-all duration-300 hover:scale-110 hover:rotate-90"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="bg-gray-100 rounded-lg p-4">
+                <h3 className="font-semibold text-gray-800 mb-2">
+                  {selectedEmergency.name}
+                </h3>
+                <p className="text-gray-600">{selectedEmergency.emergency}</p>
+                <p className="text-gray-600 mt-1">
+                  {selectedEmergency.message}
+                </p>
+              </div>
+              <div className="relative h-[400px] bg-gray-200 rounded-lg overflow-hidden">
+                <img
+                  src={mapImage}
+                  alt="Map location"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <div className="bg-red-500 text-white px-3 py-1 rounded-full shadow-lg">
+                    📍 Emergency Location
+                  </div>
+                </div>
+              </div>
+              <div className="flex justify-between items-center text-sm text-gray-600">
+                <div>
+                  <span className="font-medium">Latitude:</span>{" "}
+                  {selectedLocation.lat}
+                </div>
+                <div>
+                  <span className="font-medium">Longitude:</span>{" "}
+                  {selectedLocation.lng}
+                </div>
+              </div>
               <div className="flex space-x-4">
                 <button
-                  onClick={() => setShowLogoutConfirm(false)}
-                  className="flex-1 bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
+                  onClick={() =>
+                    window.open(
+                      `https://www.google.com/maps?q=${selectedLocation.lat},${selectedLocation.lng}`,
+                      "_blank"
+                    )
+                  }
+                  className="flex-1 bg-[#005524] text-white py-2 px-4 rounded-lg hover:bg-[#004015] transition-all duration-300 hover:scale-105 group flex items-center justify-center"
+                >
+                  <span className="mr-2 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110">
+                    <FaMapMarkedAlt size={16} />
+                  </span>{" "}
+                  Open in Maps
+                </button>
+                <button
+                  onClick={() => setShowLocationView(false)}
+                  className="flex-1 bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-all duration-300 hover:scale-105"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showCallConfirm && selectedEmergencyForAction && (
+        <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-96 shadow-xl">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-[#005524]">
+                Call Assistance
+              </h2>
+              <button
+                onClick={() => setShowCallConfirm(false)}
+                className="text-gray-500 hover:text-gray-700 transition-all duration-300 hover:scale-110 hover:rotate-90"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="space-y-4">
+              <p className="text-gray-600">
+                Are you sure you want to call emergency assistance for{" "}
+                {selectedEmergencyForAction.name}'s{" "}
+                {selectedEmergencyForAction.emergency}?
+              </p>
+              <div className="bg-gray-100 p-4 rounded-lg">
+                <p className="text-sm text-gray-600">
+                  This will initiate a call to emergency services. Please
+                  ensure this is a genuine emergency.
+                </p>
+              </div>
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => setShowCallConfirm(false)}
+                  className="flex-1 bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-all duration-300 hover:scale-105"
                 >
                   Cancel
                 </button>
                 <button
-                  onClick={handleLogout}
-                  className="flex-1 bg-[#005524] text-white py-2 px-4 rounded-lg hover:bg-[#004015] transition-colors"
+                  onClick={initiateCall}
+                  className="flex-1 bg-[#005524] text-white py-2 px-4 rounded-lg hover:bg-[#004015] transition-all duration-300 hover:scale-105 group flex items-center justify-center"
                 >
-                  Logout
+                  📞 Call Now
                 </button>
               </div>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-        {showProfile && (
-          <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-96 shadow-xl">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-[#005524]">Profile</h2>
-                <button
-                  onClick={() => setShowProfile(false)}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  ✕
-                </button>
-              </div>
-              <div className="space-y-4">
-                <div className="flex justify-center">
-                  <div className="w-24 h-24 rounded-full bg-gray-300 flex items-center justify-center text-white text-4xl">
-                    👤
-                  </div>
-                </div>
-                <div className="text-center">
-                  <h3 className="text-xl font-semibold text-gray-800">
-                    {activeUser}
-                  </h3>
-                  <p className="text-gray-500">Member since 2024</p>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
-                    <span className="text-gray-600">Email</span>
-                    <span className="text-gray-800">user@example.com</span>
-                  </div>
-                  <div className="flex justify-between items-center p-2 bg-gray-50 rounded">
-                    <span className="text-gray-600">Phone</span>
-                    <span className="text-gray-800">+63 123 456 7890</span>
-                  </div>
-                </div>
-              </div>
+      {showAlertConfirm && selectedAlertType && (
+        <div className="fixed inset-0 backdrop-blur-lg bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl border-0 transform animate-in zoom-in-95">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-[#005524]">
+                Emergency Alert
+              </h2>
+              <button
+                onClick={() => {
+                  setShowAlertConfirm(false);
+                  setSelectedAlertType(null);
+                }}
+                className="text-gray-500 hover:text-gray-700 transition-all duration-300 hover:scale-110 hover:rotate-90"
+              >
+                ✕
+              </button>
             </div>
-          </div>
-        )}
-
-        {showSettings && (
-          <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-96 shadow-xl">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-[#005524]">Settings</h2>
-                <button
-                  onClick={() => setShowSettings(false)}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  ✕
-                </button>
-              </div>
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <h3 className="font-semibold text-gray-700">Notifications</h3>
-                  <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                    <span className="text-gray-600">Email Notifications</span>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="sr-only peer"
-                        defaultChecked
-                      />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#005524]"></div>
-                    </label>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <h3 className="font-semibold text-gray-700">Privacy</h3>
-                  <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                    <span className="text-gray-600">Location Sharing</span>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        className="sr-only peer"
-                        defaultChecked
-                      />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#005524]"></div>
-                    </label>
-                  </div>
+            <div className="space-y-6">
+              <div className="flex items-center justify-center mb-6">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center text-white shadow-xl">
+                  <FaExclamationTriangle className="text-2xl" />
                 </div>
               </div>
-            </div>
-          </div>
-        )}
-
-        {showLocationView && selectedLocation && selectedEmergency && (
-          <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-[600px] shadow-xl">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-[#005524]">
-                  Emergency Location
-                </h2>
-                <button
-                  onClick={() => setShowLocationView(false)}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  ✕
-                </button>
-              </div>
-              <div className="space-y-4">
-                <div className="bg-gray-100 rounded-lg p-4">
-                  <h3 className="font-semibold text-gray-800 mb-2">
-                    {selectedEmergency.name}
-                  </h3>
-                  <p className="text-gray-600">{selectedEmergency.emergency}</p>
-                  <p className="text-gray-600 mt-1">
-                    {selectedEmergency.message}
-                  </p>
-                </div>
-                <div className="relative h-[400px] bg-gray-200 rounded-lg overflow-hidden">
-                  <img
-                    src={mapImage}
-                    alt="Map location"
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <div className="bg-red-500 text-white px-3 py-1 rounded-full shadow-lg">
-                      📍 Emergency Location
-                    </div>
-                  </div>
-                </div>
-                <div className="flex justify-between items-center text-sm text-gray-600">
-                  <div>
-                    <span className="font-medium">Latitude:</span>{" "}
-                    {selectedLocation.lat}
-                  </div>
-                  <div>
-                    <span className="font-medium">Longitude:</span>{" "}
-                    {selectedLocation.lng}
-                  </div>
-                </div>
-                <div className="flex space-x-4">
-                  <button
-                    onClick={() =>
-                      window.open(
-                        `https://www.google.com/maps?q=${selectedLocation.lat},${selectedLocation.lng}`,
-                        "_blank"
-                      )
-                    }
-                    className="flex-1 bg-[#005524] text-white py-2 px-4 rounded-lg hover:bg-[#004015] transition-colors flex items-center justify-center"
-                  >
-                    <span className="mr-2">
-                      <FaMapMarkedAlt size={16} />
-                    </span>{" "}
-                    Open in Maps
-                  </button>
-                  <button
-                    onClick={() => setShowLocationView(false)}
-                    className="flex-1 bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {showCallConfirm && selectedEmergencyForAction && (
-          <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-96 shadow-xl">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-[#005524]">
-                  Call Assistance
-                </h2>
-                <button
-                  onClick={() => setShowCallConfirm(false)}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  ✕
-                </button>
-              </div>
-              <div className="space-y-4">
-                <p className="text-gray-600">
-                  Are you sure you want to call emergency assistance for{" "}
-                  {selectedEmergencyForAction.name}'s{" "}
-                  {selectedEmergencyForAction.emergency}?
-                </p>
-                <div className="bg-gray-100 p-4 rounded-lg">
-                  <p className="text-sm text-gray-600">
-                    This will initiate a call to emergency services. Please
-                    ensure this is a genuine emergency.
-                  </p>
-                </div>
-                <div className="flex space-x-4">
-                  <button
-                    onClick={() => setShowCallConfirm(false)}
-                    className="flex-1 bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={initiateCall}
-                    className="flex-1 bg-[#005524] text-white py-2 px-4 rounded-lg hover:bg-[#004015] transition-colors flex items-center justify-center"
-                  >
-                    📞 Call Now
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {showAlertConfirm && selectedAlertType && (
-          <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-96 shadow-xl">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-[#005524]">
-                  Emergency Alert
-                </h2>
+              <p className="text-gray-700 text-lg text-center font-medium">
+                You have triggered this <span className="text-[#005524] font-bold">{selectedAlertType}</span> alert.
+              </p>
+              <p className="text-gray-700 text-md text-center font-small">
+                This will notify nearby users and emergency services about the situation.
+              </p>
+              <div className="flex justify-end pt-4">
                 <button
                   onClick={() => {
                     setShowAlertConfirm(false);
                     setSelectedAlertType(null);
                   }}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="bg-gray-200 text-gray-700 py-3 px-6 rounded-2xl hover:bg-gray-300 transition-all duration-300 transform hover:scale-105 active:scale-95 font-medium"
                 >
-                  ✕
+                  Close
                 </button>
-              </div>
-              <div className="space-y-4">
-                <p className="text-gray-600">
-                  You have triggered this {selectedAlertType} alert.
-                </p>
-                <div className="bg-gray-100 p-4 rounded-lg">
-                  <p className="text-sm text-gray-600">
-                    Your alert has been sent to nearby users and emergency
-                    services.
-                  </p>
-                </div>
-                <div className="flex justify-end">
-                  <button
-                    onClick={() => {
-                      setShowAlertConfirm(false);
-                      setSelectedAlertType(null);
-                    }}
-                    className="bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
-                  >
-                    Close
-                  </button>
-                </div>
               </div>
             </div>
           </div>
-        )}
+        </div>
+      )}
 
-        {showReportConfirm && selectedEmergencyForAction && (
-          <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-96 shadow-xl">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-[#005524]">
-                  Report Emergency
-                </h2>
+      {showReportConfirm && selectedEmergencyForAction && (
+        <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-96 shadow-xl">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-[#005524]">
+                Report Emergency
+              </h2>
+              <button
+                onClick={() => setShowReportConfirm(false)}
+                className="text-gray-500 hover:text-gray-700 transition-all duration-300 hover:scale-110 hover:rotate-90"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="space-y-4">
+              <p className="text-gray-600">
+                You are about to report {selectedEmergencyForAction.name}'s{" "}
+                {selectedEmergencyForAction.emergency}.
+              </p>
+              <div className="space-y-2">
+                <label className="block text-gray-700 font-medium">
+                  Additional Details
+                </label>
+                <textarea
+                  className="w-full p-2 border border-gray-300 rounded-lg"
+                  rows={3}
+                  placeholder="Add any additional information about the emergency..."
+                />
+              </div>
+              <div className="flex space-x-4">
                 <button
                   onClick={() => setShowReportConfirm(false)}
-                  className="text-gray-500 hover:text-gray-700"
+                  className="flex-1 bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-all duration-300 hover:scale-110"
                 >
-                  ✕
+                  Cancel
                 </button>
-              </div>
-              <div className="space-y-4">
-                <p className="text-gray-600">
-                  You are about to report {selectedEmergencyForAction.name}'s{" "}
-                  {selectedEmergencyForAction.emergency}.
-                </p>
-                <div className="space-y-2">
-                  <label className="block text-gray-700 font-medium">
-                    Additional Details
-                  </label>
-                  <textarea
-                    className="w-full p-2 border border-gray-300 rounded-lg"
-                    rows={3}
-                    placeholder="Add any additional information about the emergency..."
-                  />
-                </div>
-                <div className="flex space-x-4">
-                  <button
-                    onClick={() => setShowReportConfirm(false)}
-                    className="flex-1 bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    onClick={submitReport}
-                    className="flex-1 bg-[#be4c1d] text-white py-2 px-4 rounded-lg hover:bg-[#a33d16] transition-colors flex items-center justify-center"
-                  >
-                    Submit Report
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Safety Tip Details Modal */}
-        {showSafetyTipModal && selectedSafetyTip && (
-          <div className="fixed inset-0 backdrop-blur-sm bg-white/30 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-96 shadow-xl">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-[#005524]">{selectedSafetyTip.name}</h2>
                 <button
-                  onClick={() => {
-                    setShowSafetyTipModal(false);
-                    setSelectedSafetyTip(null);
-                  }}
-                  className="text-gray-500 hover:text-gray-700"
+                  onClick={submitReport}
+                  className="flex-1 bg-[#be4c1d] text-white py-2 px-4 rounded-lg hover:bg-[#a33d16] transition-all duration-300 hover:scale-105 group flex items-center justify-center"
                 >
-                  ✕
+                  Submit Report
                 </button>
-              </div>
-              <div className="space-y-4">
-                <div>
-                  <h3 className="font-semibold text-gray-700">Content</h3>
-                  <p className="text-gray-600">{selectedSafetyTip.content}</p>
-                </div>
               </div>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {/* Safety Tip Details Modal */}
+      {showSafetyTipModal && selectedSafetyTip && (
+        <div className="fixed inset-0 backdrop-blur-lg bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl p-8 w-full max-w-md shadow-2xl border-0 transform animate-in zoom-in-95">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl font-bold text-[#005524]">{selectedSafetyTip.name}</h2>
+              <button
+                onClick={() => {
+                  setShowSafetyTipModal(false);
+                  setSelectedSafetyTip(null);
+                }}
+                className="text-gray-500 hover:text-gray-700 transition-all duration-300 hover:scale-110 hover:rotate-90"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="space-y-6">
+              <div className="flex items-center justify-center mb-6">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#f69f00] to-[#be4c1d] flex items-center justify-center text-white shadow-xl">
+                  {iconMap[selectedSafetyTip.icon] ? React.createElement(iconMap[selectedSafetyTip.icon]) : '?'}
+                </div>
+              </div>
+              <div className="bg-gradient-to-r from-gray-50 to-white p-6 rounded-2xl border border-gray-100">
+                <h3 className="font-bold text-gray-800 text-lg mb-3">Safety Guidelines</h3>
+                <p className="text-gray-700 leading-relaxed">{selectedSafetyTip.content}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
