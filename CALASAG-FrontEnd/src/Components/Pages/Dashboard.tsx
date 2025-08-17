@@ -957,7 +957,7 @@ const Dashboard: React.FC = () => {
             <div className="flex space-x-4">
               <button
                 onClick={() => setShowLogoutConfirm(false)}
-                className="flex-1 bg-white/20 backdrop-blur-sm text-white py-3 px-6 rounded-xl font-bold hover:bg-white/30 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="flex-1 bg-[#be4c1d] backdrop-blur-sm text-white py-3 px-6 rounded-xl font-bold hover:bg-white/30 transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 Cancel
               </button>
