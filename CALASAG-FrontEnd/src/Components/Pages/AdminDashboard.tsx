@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaUserCircle, FaBell, FaMoon, FaSun, FaSearch, FaChevronDown, FaChevronLeft, FaChevronRight, FaTable, FaChartBar, FaKey, FaCalendarAlt, FaFileAlt, FaCubes, FaLock, FaUser, FaHome, FaCog, FaMapMarkerAlt, FaShieldAlt, FaExclamationTriangle, FaCheckCircle, FaClock, FaEye, FaEdit, FaTrash, FaPlus, FaFilter, FaDownload } from 'react-icons/fa';
+import { FaUserCircle, FaBell, FaMoon, FaSun, FaChevronDown, FaChevronLeft, FaChevronRight, FaTable, FaChartBar, FaKey, FaCalendarAlt, FaFileAlt, FaCubes, FaLock, FaUser, FaHome, FaCog, FaMapMarkerAlt, FaShieldAlt, FaExclamationTriangle, FaCheckCircle, FaClock, FaEye, FaEdit, FaTrash, FaPlus, FaFilter, FaDownload } from 'react-icons/fa';
 import logoImage from "../Images/no-bg-logo.png";
 
 // Import Chart.js components
@@ -797,121 +797,101 @@ const AdminDashboard: React.FC = () => {
             case "settings":
                 return (
                     <div className="space-y-6">
-                        {/* Personal Information Section */}
-                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                            <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-lg font-semibold text-gray-900">Personal Information</h3>
-                                {!isEditingPersonal ? (
-                                    <button
-                                        onClick={() => setIsEditingPersonal(true)}
-                                        className="px-4 py-2 bg-[#005524] text-white rounded-lg hover:bg-[#004d20] transition-colors"
-                                    >
-                                        Edit
-                                    </button>
-                                ) : (
-                                    <div className="flex gap-2">
-                                        <button
-                                            onClick={() => setIsEditingPersonal(false)}
-                                            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
-                                        >
-                                            Cancel
-                                        </button>
-                                        <button
-                                            onClick={() => setIsEditingPersonal(false)}
-                                            className="px-4 py-2 bg-[#005524] text-white rounded-lg hover:bg-[#004d20] transition-colors"
-                                        >
-                                            Save
-                                        </button>
-                                    </div>
-                                )}
+                        {/* Profile Settings */}
+                        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-xl font-semibold text-gray-900">Personal Information</h3>
+                                <button
+                                    onClick={() => setIsEditingPersonal(!isEditingPersonal)}
+                                    className="text-sm font-medium text-[#005524] hover:text-[#004d20]"
+                                >
+                                    {isEditingPersonal ? 'Cancel' : 'Edit'}
+                                </button>
                             </div>
-                            <div className="space-y-4">
+                            <form className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
                                     <input
                                         type="text"
+                                        id="name"
                                         value={personalInfo.name}
+                                        onChange={(e) => setPersonalInfo({ ...personalInfo, name: e.target.value })}
                                         disabled={!isEditingPersonal}
-                                        onChange={e => setPersonalInfo({ ...personalInfo, name: e.target.value })}
-                                        className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${!isEditingPersonal ? 'bg-gray-50 cursor-not-allowed' : 'hover:border-gray-400'}`}
+                                        className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm p-2 ${!isEditingPersonal ? 'bg-gray-100' : 'bg-white'}`}
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email Address</label>
                                     <input
                                         type="email"
+                                        id="email"
                                         value={personalInfo.email}
+                                        onChange={(e) => setPersonalInfo({ ...personalInfo, email: e.target.value })}
                                         disabled={!isEditingPersonal}
-                                        onChange={e => setPersonalInfo({ ...personalInfo, email: e.target.value })}
-                                        className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${!isEditingPersonal ? 'bg-gray-50 cursor-not-allowed' : 'hover:border-gray-400'}`}
+                                        className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm p-2 ${!isEditingPersonal ? 'bg-gray-100' : 'bg-white'}`}
                                     />
                                 </div>
-                            </div>
-                        </div>
-
-                        {/* Security Section */}
-                        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                            <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-lg font-semibold text-gray-900">Security</h3>
-                                {!isEditingSecurity ? (
-                                    <button
-                                        onClick={() => setIsEditingSecurity(true)}
-                                        className="px-4 py-2 bg-[#005524] text-white rounded-lg hover:bg-[#004d20] transition-colors"
-                                    >
-                                        Edit
-                                    </button>
-                                ) : (
-                                    <div className="flex gap-2">
-                                        <button
-                                            onClick={() => setIsEditingSecurity(false)}
-                                            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
-                                        >
-                                            Cancel
-                                        </button>
-                                        <button
-                                            onClick={() => setIsEditingSecurity(false)}
-                                            className="px-4 py-2 bg-[#005524] text-white rounded-lg hover:bg-[#004d20] transition-colors"
-                                        >
-                                            Save
+                                {isEditingPersonal && (
+                                    <div className="flex justify-end">
+                                        <button type="button" className="px-4 py-2 bg-[#005524] text-white rounded-lg hover:bg-[#004d20]">
+                                            Save Changes
                                         </button>
                                     </div>
                                 )}
+                            </form>
+                        </div>
+                        {/* Security Settings */}
+                        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-xl font-semibold text-gray-900">Security</h3>
+                                <button
+                                    onClick={() => setIsEditingSecurity(!isEditingSecurity)}
+                                    className="text-sm font-medium text-[#005524] hover:text-[#004d20]"
+                                >
+                                    {isEditingSecurity ? 'Cancel' : 'Change Password'}
+                                </button>
                             </div>
-                            <div className="space-y-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Current Password</label>
-                                    <input
-                                        type="password"
-                                        value={securityInfo.currentPassword}
-                                        disabled={!isEditingSecurity}
-                                        onChange={e => setSecurityInfo({ ...securityInfo, currentPassword: e.target.value })}
-                                        placeholder="Enter current password"
-                                        className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${!isEditingSecurity ? 'bg-gray-50 cursor-not-allowed' : 'hover:border-gray-400'}`}
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">New Password</label>
-                                    <input
-                                        type="password"
-                                        value={securityInfo.newPassword}
-                                        disabled={!isEditingSecurity}
-                                        onChange={e => setSecurityInfo({ ...securityInfo, newPassword: e.target.value })}
-                                        placeholder="Enter new password"
-                                        className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${!isEditingSecurity ? 'bg-gray-50 cursor-not-allowed' : 'hover:border-gray-400'}`}
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Confirm New Password</label>
-                                    <input
-                                        type="password"
-                                        value={securityInfo.confirmPassword}
-                                        disabled={!isEditingSecurity}
-                                        onChange={e => setSecurityInfo({ ...securityInfo, confirmPassword: e.target.value })}
-                                        placeholder="Confirm new password"
-                                        className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors ${!isEditingSecurity ? 'bg-gray-50 cursor-not-allowed' : 'hover:border-gray-400'}`}
-                                    />
-                                </div>
-                            </div>
+                            <form className="space-y-4">
+                                {isEditingSecurity && (
+                                    <>
+                                        <div>
+                                            <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700">Current Password</label>
+                                            <input
+                                                type="password"
+                                                id="currentPassword"
+                                                value={securityInfo.currentPassword}
+                                                onChange={(e) => setSecurityInfo({ ...securityInfo, currentPassword: e.target.value })}
+                                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm p-2"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700">New Password</label>
+                                            <input
+                                                type="password"
+                                                id="newPassword"
+                                                value={securityInfo.newPassword}
+                                                onChange={(e) => setSecurityInfo({ ...securityInfo, newPassword: e.target.value })}
+                                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm p-2"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">Confirm New Password</label>
+                                            <input
+                                                type="password"
+                                                id="confirmPassword"
+                                                value={securityInfo.confirmPassword}
+                                                onChange={(e) => setSecurityInfo({ ...securityInfo, confirmPassword: e.target.value })}
+                                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm sm:text-sm p-2"
+                                            />
+                                        </div>
+                                        <div className="flex justify-end">
+                                            <button type="button" className="px-4 py-2 bg-[#005524] text-white rounded-lg hover:bg-[#004d20]">
+                                                Change Password
+                                            </button>
+                                        </div>
+                                    </>
+                                )}
+                            </form>
                         </div>
 
                         {/* General Settings Section */}
@@ -977,12 +957,6 @@ const AdminDashboard: React.FC = () => {
                 </div>
 
                 <nav className="flex-1 flex flex-col gap-1 p-4 bg-white/60 backdrop-blur-sm rounded-r-3xl shadow-inner border-r border-gray-100">
-                    <div className="mb-2">
-                        <h3 className={`text-xs font-semibold text-gray-500 uppercase tracking-wider ${isSidebarCollapsed ? 'text-center' : 'ml-3'}`}>
-                            {!isSidebarCollapsed && 'DASHBOARD'}
-                        </h3>
-                    </div>
-
                     <button
                         onClick={() => setActiveTab("dashboard")}
                         className={`relative flex items-center gap-3 px-4 py-3 rounded-r-full transition-all duration-200 text-sm font-medium overflow-hidden group
@@ -1087,7 +1061,7 @@ const AdminDashboard: React.FC = () => {
                         className="w-full flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all duration-200 group"
                     >
                         <FaLock size={18} />
-                        {!isSidebarCollapsed && 'Sign Out'}
+                        {!isSidebarCollapsed && 'Logout'}
                     </button>
                 </div>
             </aside>
@@ -1113,16 +1087,6 @@ const AdminDashboard: React.FC = () => {
                     </div>
 
                     <div className="flex items-center gap-4">
-                        {/* Search Bar */}
-                        <div className="relative hidden md:block">
-                            <input
-                                type="text"
-                                placeholder="Type here..."
-                                className="w-64 pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                            />
-                            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={14} />
-                        </div>
-
                         {/* Notifications */}
                         <div className="relative">
                             <button
